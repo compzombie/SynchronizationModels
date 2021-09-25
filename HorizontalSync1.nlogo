@@ -61,9 +61,9 @@ to go
 end
 @#$#@#$#@
 GRAPHICS-WINDOW
-210
+234
 10
-647
+671
 448
 -1
 -1
@@ -122,10 +122,10 @@ NIL
 1
 
 SLIDER
-23
-135
-195
-168
+11
+186
+183
+219
 sim-mode
 sim-mode
 0
@@ -137,9 +137,9 @@ NIL
 HORIZONTAL
 
 PLOT
-658
+682
 10
-1112
+1136
 445
 Color Properties - Total history
 Tick
@@ -157,11 +157,11 @@ PENS
 "Global Average" 1.0 0 -16777216 true "" "plot mean map mean [color-history] of patches"
 
 TEXTBOX
-27
-199
-177
-563
-TODO: \n*Another graph that doesn't take total history into account for the averages. \n\n1. Slower step towards each others color values\n\n2. No Mutation Variant\n\n3. Compare output of different start conditions within a given variant\n\n4. Meta analysis on differening output between variants.\n\n\n\n\n\n\n\n\n\n\n
+25
+335
+175
+699
+TODO: \n1. Slower step towards each others color values\n\n2. No Mutation Variant\n  -active only choose variant\n\n3. Compare output of different start conditions within a given variant\n\n4. Meta analysis on differening output between variants.\n\n\n\n\n\n\n\n\n\n\n
 11
 0.0
 1
@@ -199,9 +199,9 @@ count patches with [pcolor = black]
 11
 
 PLOT
-1123
+1147
 10
-1578
+1602
 446
 Color Properties - Current
 Tick
@@ -211,12 +211,27 @@ Color Value
 0.0
 10.0
 true
-false
+true
 "" ""
 PENS
 "Global Average" 1.0 0 -16777216 true "" "plot mean [pcolor] of patches"
 "Sample Actual" 1.0 0 -13345367 true "" "ask patch 0 0 [plotxy ticks pcolor]"
-"Sample Average" 1.0 0 -8630108 true "\n\n" " let current-history 0\n ask patch 0 0 [set current-history color-history]\n \n ;;remove all but the 3 most current colors\nif (length current-history) > 3 [\n  let n (length current-history - 3)\n  repeat n [remove-item 0 plt-current-history]\n ]\n \n\nask patch 0 0 [plotxy ticks mean plt-current-history]"
+"Sample Average" 1.0 0 -8630108 true "" " let current-history list 0 0\n ask patch 0 0 [set current-history color-history]\n \n ;;remove all but the history-limit most current colors\nif (length current-history) > 3 [\n  let n (length current-history - history-limit)\n  repeat n [set current-history remove-item 0 current-history]  \n]\n \n\nask patch 0 0 [plotxy ticks mean current-history]"
+
+SLIDER
+12
+129
+224
+162
+history-limit
+history-limit
+1
+100
+50.0
+10
+1
+drop from history
+HORIZONTAL
 
 @#$#@#$#@
 ## WHAT IS IT?

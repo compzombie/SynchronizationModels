@@ -1,15 +1,45 @@
-patches-own[choice ncolor color-history]
+patches-own[choice ncolor color-history plt-current-history]
 
 to setup
   clear-all
+    ;;each patch is a random color
+    if sim-mode = 0 [default-mode]
+
+    ;;a single black patch
+    if sim-mode = 1 [single-black-mode]
+
+    ;;a single black neighborhood
+  if sim-mode = 2 [black-neighborhood-mode]
+
+
   ask patches [
-    set pcolor random 140
     set color-history (list pcolor)
   ]
+
+
 
   reset-ticks
 end
 
+to default-mode
+  ask patches [set pcolor random 140]
+end
+
+to single-black-mode
+  ask patches [set pcolor white]
+  ask patch 0 0 [set pcolor black]
+end
+
+to black-neighborhood-mode
+  ask patches [set pcolor white]
+
+  ask patch 0 0 [
+    set pcolor black
+    ask patch-at -1 0 [set pcolor black]
+    ask patch-at 1 0 [set pcolor black]
+  ]
+
+end
 
 to go
   ask patches [
@@ -18,7 +48,7 @@ to go
     ;;get the color of the chosen neighbor
     ask patch (pxcor + choice) pycor [set ncolor pcolor]
     ;;become the average of the two colors
-    set pcolor (pcolor + ncolor) / 2
+    set pcolor mean list pcolor ncolor
     ;;mutate slightly
     set pcolor (pcolor + choice)
     ;;update color-history
@@ -51,17 +81,17 @@ GRAPHICS-WINDOW
 16
 -16
 16
-0
-0
+1
+1
 1
 ticks
 30.0
 
 BUTTON
-128
+131
+10
+195
 43
-192
-76
 Setup
 setup
 NIL
@@ -75,10 +105,10 @@ NIL
 1
 
 BUTTON
-129
-88
-192
-121
+132
+77
+195
+110
 Go
 go
 T
@@ -91,14 +121,29 @@ NIL
 NIL
 1
 
+SLIDER
+23
+135
+195
+168
+sim-mode
+sim-mode
+0
+2
+1.0
+1
+1
+NIL
+HORIZONTAL
+
 PLOT
-675
+658
 10
-1127
+1112
 445
-Sync Plot
+Color Properties - Total history
 Tick
-Color
+Color Value
 0.0
 10.0
 0.0
@@ -107,9 +152,71 @@ true
 true
 "" ""
 PENS
-"Sample Actual" 1.0 0 -16777216 true "" "ask patch 0 0 [plotxy ticks pcolor]"
-"Sample Average" 1.0 0 -2674135 true "" "ask patch 0 0 [plotxy ticks mean color-history]"
-"Global Average" 1.0 0 -13840069 true "" "plot mean map mean [color-history] of patches"
+"Sample Actual" 1.0 0 -13345367 true "" "ask patch 0 0 [plotxy ticks pcolor]"
+"Sample Average" 1.0 0 -8630108 true "" "ask patch 0 0 [plotxy ticks mean color-history]"
+"Global Average" 1.0 0 -16777216 true "" "plot mean map mean [color-history] of patches"
+
+TEXTBOX
+27
+199
+177
+563
+TODO: \n*Another graph that doesn't take total history into account for the averages. \n\n1. Slower step towards each others color values\n\n2. No Mutation Variant\n\n3. Compare output of different start conditions within a given variant\n\n4. Meta analysis on differening output between variants.\n\n\n\n\n\n\n\n\n\n\n
+11
+0.0
+1
+
+TEXTBOX
+859
+475
+1009
+727
+Q: Do the values that the patches start with become irrelevant? \n\nA: I'll need to compare the output of a wide variety of start conditions. The way information passes from one cell to antoher is reminiscent of a 1D cellular automata. This might be a relevant model to try and analyze with Computatational Mechanical methods. \n\nQ: How can I characterize the nature and amout of information in this system?
+11
+0.0
+1
+
+MONITOR
+16
+11
+109
+56
+White Patches
+count patches with [pcolor = white]
+17
+1
+11
+
+MONITOR
+14
+72
+102
+117
+Black Patches
+count patches with [pcolor = black]
+17
+1
+11
+
+PLOT
+1123
+10
+1578
+446
+Color Properties - Current
+Tick
+Color Value
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"Global Average" 1.0 0 -16777216 true "" "plot mean [pcolor] of patches"
+"Sample Actual" 1.0 0 -13345367 true "" "ask patch 0 0 [plotxy ticks pcolor]"
+"Sample Average" 1.0 0 -8630108 true "\n\n" " let current-history 0\n ask patch 0 0 [set current-history color-history]\n \n ;;remove all but the 3 most current colors\nif (length current-history) > 3 [\n  let n (length current-history - 3)\n  repeat n [remove-item 0 plt-current-history]\n ]\n \n\nask patch 0 0 [plotxy ticks mean plt-current-history]"
 
 @#$#@#$#@
 ## WHAT IS IT?

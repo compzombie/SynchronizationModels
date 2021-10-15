@@ -148,10 +148,10 @@ NIL
 1
 
 TEXTBOX
-134
-544
-581
-649
+217
+477
+664
+582
 1) each patch hase a state 0 or 1, black or white\n\n2) each patch has a chance to adopt the state of its neighbhor or retain its own state\n\n3) the probability distribution of the above choices is potentially unique to each patch\n
 11
 0.0
@@ -161,8 +161,8 @@ TEXTBOX
 29
 218
 179
-526
-TODO:\nI don't believe that I've programmed the rules correctly. Or, I'm otherwise experiencing some artifcat of netlogo. \n\n1. Why does an all black band at the top (which shouldn't exist) ever have the opportunity to have a different state?\n\nEach row is a unique set of ICs and the row index determines the number of black cells in the row. \n\nN states\n\nDo random and neighborhood mode for each band
+596
+TODO:\nI should do anothother model that assesses all patches passing to the left or right as one band. \n\nI don't believe that I've programmed the rules correctly. Or, I'm otherwise experiencing some artifcat of netlogo. \n\n1. Why does an all black band at the top (which shouldn't exist) ever have the opportunity to have a different state?\n\nEach row is a unique set of ICs and the row index determines the number of black cells in the row. \n\nN states\n\nDo random and neighborhood mode for each band
 11
 0.0
 1

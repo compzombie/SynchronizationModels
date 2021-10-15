@@ -148,10 +148,10 @@ NIL
 1
 
 TEXTBOX
-134
-544
-581
-649
+217
+477
+664
+582
 1) each patch hase a state 0 or 1, black or white\n\n2) each patch has a chance to adopt the state of its neighbhor or retain its own state\n\n3) the probability distribution of the above choices is potentially unique to each patch\n
 11
 0.0

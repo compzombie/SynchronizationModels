@@ -161,8 +161,8 @@ TEXTBOX
 29
 218
 179
-456
-TODO:\nEach row is a unique set of ICs and the row index determines the number of black cells in the row. \n\nN states\n\nDo random and neighborhood mode for each band
+526
+TODO:\nI don't believe that I've programmed the rules correctly. Or, I'm otherwise experiencing some artifcat of netlogo. \n\n1. Why does an all black band at the top (which shouldn't exist) ever have the opportunity to have a different state?\n\nEach row is a unique set of ICs and the row index determines the number of black cells in the row. \n\nN states\n\nDo random and neighborhood mode for each band
 11
 0.0
 1

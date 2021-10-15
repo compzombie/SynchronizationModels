@@ -8,17 +8,17 @@ patches-own[choice nleft nright nstay state decisions]
 
 to setup
   clear-all
+  ask patches [set state 0]
 
   ;;TODO this doesn't fill in the row
   ;;for each row of patches r in at pycor 0 to n
   let y min-pycor
   let row-count min-pycor
   while [y < max-pycor] [
-    while [row-count < y ] [
-      ask patch row-count y [set state 1]
-      set row-count (row-count + 1)
-    ]
+    ;;ask y number of patches at ((pxcor +- y), y)
+    ask patches with [pxcor <= y and pycor = y] [set state 1]
     set y (y + 1)
+    output-print y
   ]
 
 
@@ -107,8 +107,8 @@ GRAPHICS-WINDOW
 16
 -16
 16
-0
-0
+1
+1
 1
 ticks
 30.0
@@ -131,10 +131,10 @@ NIL
 1
 
 BUTTON
-106
-91
-169
-124
+104
+87
+167
+120
 Go
 go
 T
@@ -158,13 +158,30 @@ TEXTBOX
 1
 
 TEXTBOX
-27
-165
-177
-305
+29
+218
+179
+456
 TODO:\nEach row is a unique set of ICs and the row index determines the number of black cells in the row. \n\nN states\n\nDo random and neighborhood mode for each band
 11
 0.0
+1
+
+BUTTON
+105
+132
+168
+165
+Next
+go
+NIL
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
 1
 
 @#$#@#$#@

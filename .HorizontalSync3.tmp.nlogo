@@ -29,8 +29,16 @@ to decide
 end
 
 to act
+  ;;TODO all of the choice are 0
+  if choice != 0 [
 
-  set state [state] of patch-at-heading-and-distance (90 * choice) 1
+    ;;set state [state] of patch-at-heading-and-distance (90 * choice) 1
+    ;;set state [state] of n-of 1 neighbors4
+    let newState 0
+    ask n-of 1 neighbors4 [set newState state]
+    set state newState
+    ;;set state [state] of (n-of 2 neighbors4)
+  ]
 end
 
 to paint
@@ -95,10 +103,10 @@ NIL
 1
 
 BUTTON
-18
-101
-81
-134
+9
+226
+72
+259
 Go
 go
 T
@@ -112,10 +120,10 @@ NIL
 1
 
 BUTTON
-124
-101
-187
-134
+115
+226
+178
+259
 Next
 go
 NIL
@@ -136,7 +144,7 @@ SLIDER
 flipped
 flipped
 1
-100
+500
 100.0
 1
 1
@@ -162,11 +170,11 @@ PENS
 "default" 1.0 0 -16777216 true "" "plot count patches with [state = 1]"
 
 TEXTBOX
-22
-171
-172
-339
-TODO:\n!I hesitate to start running experiments until I can verify the behavior of the agents are programmed correctly.\n\nWhy is a pattern able to travel vertically?\n\nWhy do the patterns seem to progress either left/right or down, but not up?
+17
+289
+167
+457
+TODO:\nLeft/right vs neighbors4 vs neighbors8?\n\nWhat about versus a discrete version?\n\nIs the graph output random?\n\nCan you predict how long this process will run for?\n
 11
 0.0
 1

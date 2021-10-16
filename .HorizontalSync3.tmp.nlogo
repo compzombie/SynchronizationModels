@@ -29,6 +29,7 @@ to decide
 end
 
 to act
+
   set state [state] of patch-at-heading-and-distance (90 * choice) 1
 end
 

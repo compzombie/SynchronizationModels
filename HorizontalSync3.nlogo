@@ -29,7 +29,9 @@ to decide
 end
 
 to act
-  set state [state] of patch-at-heading-and-distance (90 * choice) 1
+  if choice != 0 [
+    set state [state] of patch-at-heading-and-distance (90 * choice) 1
+  ]
 end
 
 to paint
@@ -165,7 +167,7 @@ TEXTBOX
 171
 172
 339
-TODO:\n!I hesitate to start running experiments until I can verify the behavior of the agents are programmed correctly.\n\nWhy is a pattern able to travel vertically?\n\nWhy do the patterns seem to progress either left/right or down, but not up?
+TODO:\n
 11
 0.0
 1

@@ -1,71 +1,35 @@
 ;;each patch hase a state 0 or 1, black or white
-;;each patch has a chance to adopt the state of its neighbhor or retain its own state
-;;the probability distribution of the above choices is potentially unique to each patch
+;;each patch has a 50% chance to adopt the state of its neighbhor or 50% chance retain its own state
 
-;;choice = whether patch will ask left, right or self for new state
-;;choice is later mapped to pcolor
-patches-own[choice nleft nright nstay state decisions]
+patches-own[choice state decisions]
 
 to setup
   clear-all
-  ask patches [set state 0]
-
-  ;;for each row of patches r in at pycor 0 to n
-  let y min-pycor
-  let row-count min-pycor
-  while [y < max-pycor] [
-    ;;ask y number of patches at ((pxcor +- y), y)
-    ask patches with [pxcor <= y and pycor = y] [set state 1]
-    set y (y + 1)
-    output-print y
-  ]
-
-
   ask patches [
-    ;;each patch has a random probability distribution
-    set nstay random 100
-
-    ;;nleft is a random number between 0 and the compliment of nstay
-    set nleft random (100 - nstay)
-
-    ;;nright is a random number between 0 and the compliment of nstay + nleft
-    ;;the total of all values should be 100
-    set nright random (100 - (nstay + nleft))
-
+    set state 0
     set decisions (list 0)
-
-    paint
   ]
-
+  ask n-of flipped patches [set state 1]
+  ask patches [paint]
   reset-ticks
 end
 
-;;patch decides which state to adopt
 to decide
-  ;;decision = closest (randint - nstay/nleft/nright) to 0
   ;;random integer
   let ri random 100
 
-  ;;get differences
-  let dstay abs (ri - nstay)
-  let dleft abs (ri - nleft)
-  let dright abs (ri - nright)
-
   ;;stay = 0
-  if dstay <= dleft and dstay <= dright [set choice 0]
-  ;;left = 1
-  if dleft <= dstay and dleft <= dright [set choice -1]
-  ;;right = 2
-  if dright <= dstay and dright <= dleft [set choice 1]
+  if 0 <= ri and ri < 50 [set choice 0]
+  ;;left = -1
+  if 50 <= ri and ri < 75 [set choice -1]
+  ;;right = 1
+  if 75 <= ri and ri <= 100 [set choice 1]
 
   set decisions insert-item (length decisions - 1) decisions choice
 end
 
 to act
-  ;;stay = 0, do nothing
-  ;;otherwise set state to state of chosen neighboring patch
-  set state [state] of patch-at (pxcor + choice) pycor
-
+  set state [state] of patch-at-heading-and-distance (90 * choice) 1
 end
 
 to paint
@@ -79,6 +43,9 @@ to go
     act
     paint
   ]
+
+  if count patches with [state = 0] = 0 [stop]
+  if count patches with [state = 1] = 0 [stop]
   tick
 end
 @#$#@#$#@
@@ -110,10 +77,10 @@ ticks
 30.0
 
 BUTTON
-104
-40
-168
-73
+16
+10
+80
+43
 Setup
 setup
 NIL
@@ -127,10 +94,10 @@ NIL
 1
 
 BUTTON
-104
-87
-167
-120
+18
+101
+81
+134
 Go
 go
 T
@@ -143,31 +110,11 @@ NIL
 NIL
 1
 
-TEXTBOX
-217
-477
-664
-582
-1) each patch hase a state 0 or 1, black or white\n\n2) each patch has a chance to adopt the state of its neighbhor or retain its own state\n\n3) the probability distribution of the above choices is potentially unique to each patch\n
-11
-0.0
-1
-
-TEXTBOX
-29
-218
-179
-652
-TODO:\nI should do anothother model that assesses all patches passing to the left or right as one band. \n\nThen I can test differences in the dynamics of one band as it evolves over time. \n\nI don't believe that I've programmed the rules correctly. Or, I'm otherwise experiencing some artifcat of netlogo. \n\n1. Why does an all black band at the top (which shouldn't exist) ever have the opportunity to have a different state?\n\nEach row is a unique set of ICs and the row index determines the number of black cells in the row. \n\nN states\n\nDo random and neighborhood mode for each band
-11
-0.0
-1
-
 BUTTON
-105
-132
-168
-165
+124
+101
+187
+134
 Next
 go
 NIL
@@ -178,6 +125,49 @@ NIL
 NIL
 NIL
 NIL
+1
+
+SLIDER
+15
+55
+187
+88
+flipped
+flipped
+1
+100
+100.0
+1
+1
+NIL
+HORIZONTAL
+
+PLOT
+666
+10
+1133
+450
+plot 1
+Ticks
+State 1 Count (White)
+0.0
+10.0
+0.0
+10.0
+true
+false
+"" ""
+PENS
+"default" 1.0 0 -16777216 true "" "plot count patches with [state = 1]"
+
+TEXTBOX
+22
+171
+172
+339
+TODO:\n!I hesitate to start running experiments until I can verify the behavior of the agents are programmed correctly.\n\nWhy is a pattern able to travel vertically?\n\nWhy do the patterns seem to progress either left/right or down, but not up?
+11
+0.0
 1
 
 @#$#@#$#@

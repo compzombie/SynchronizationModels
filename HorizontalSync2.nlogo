@@ -10,7 +10,6 @@ to setup
   clear-all
   ask patches [set state 0]
 
-  ;;TODO this doesn't fill in the row
   ;;for each row of patches r in at pycor 0 to n
   let y min-pycor
   let row-count min-pycor
@@ -54,7 +53,7 @@ to decide
 
   ;;stay = 0
   if dstay <= dleft and dstay <= dright [set choice 0]
-  ;; left = 1
+  ;;left = 1
   if dleft <= dstay and dleft <= dright [set choice -1]
   ;;right = 2
   if dright <= dstay and dright <= dleft [set choice 1]
@@ -72,9 +71,6 @@ end
 to paint
   if state = 0 [set pcolor black]
   if state = 1 [set pcolor white]
-end
-
-to stay
 end
 
 to go
@@ -161,8 +157,8 @@ TEXTBOX
 29
 218
 179
-596
-TODO:\nI should do anothother model that assesses all patches passing to the left or right as one band. \n\nI don't believe that I've programmed the rules correctly. Or, I'm otherwise experiencing some artifcat of netlogo. \n\n1. Why does an all black band at the top (which shouldn't exist) ever have the opportunity to have a different state?\n\nEach row is a unique set of ICs and the row index determines the number of black cells in the row. \n\nN states\n\nDo random and neighborhood mode for each band
+652
+TODO:\nI should do anothother model that assesses all patches passing to the left or right as one band. \n\nThen I can test differences in the dynamics of one band as it evolves over time. \n\nI don't believe that I've programmed the rules correctly. Or, I'm otherwise experiencing some artifcat of netlogo. \n\n1. Why does an all black band at the top (which shouldn't exist) ever have the opportunity to have a different state?\n\nEach row is a unique set of ICs and the row index determines the number of black cells in the row. \n\nN states\n\nDo random and neighborhood mode for each band
 11
 0.0
 1

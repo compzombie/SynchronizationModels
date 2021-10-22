@@ -1,44 +1,38 @@
 ;;each patch hase a state 0 or 1, black or white
-;;each patch has a 50% chance to adopt the state of its neighbhor or 50% chance retain its own state
+;;each patch adopts the state of a randomly paired patch
+;;the assignment of that patch does not change
 
-patches-own[choice state decisions]
+patches-own[choicex choicey state]
 
 to setup
   clear-all
   ask patches [
     set state 0
-    set decisions (list 0)
+
+    ;;set x coord of linked patch
+    let neg random 2
+    if neg = 0 [set choicex random max-pxcor]
+    if neg = 1 [set choicex random min-pxcor]
+
+    ;;set y coord of linked patch
+    set neg random 2
+    if neg = 0 [set choicey random max-pycor]
+    if neg = 1 [set choicey random min-pycor]
+
   ]
+
   ask n-of flipped patches [set state 1]
   ask patches [paint]
+
   reset-ticks
 end
 
-to decide
-  ;;random integer
-  let ri random 100
-
-  ;;stay = 0
-  if 0 <= ri and ri < 50 [set choice 0]
-  ;;left = -1
-  if 50 <= ri and ri < 75 [set choice -1]
-  ;;right = 1
-  if 75 <= ri and ri <= 100 [set choice 1]
-
-  set decisions insert-item (length decisions - 1) decisions choice
-end
-
 to act
-  ;;TODO all of the choice are 0
-  if choice != 0 [
 
-    ;;set state [state] of patch-at-heading-and-distance (90 * choice) 1
-    ;;set state [state] of n-of 1 neighbors4
-    let newState 0
-    ask n-of 1 neighbors4 [set newState state]
-    set state newState
-    ;;set state [state] of (n-of 2 neighbors4)
-  ]
+
+  let newState 0
+  ;ask patch-at choicex choicey [set newState state]
+  set state newState
 end
 
 to paint
@@ -48,7 +42,6 @@ end
 
 to go
   ask patches [
-    decide
     act
     paint
   ]
@@ -79,17 +72,27 @@ GRAPHICS-WINDOW
 16
 -16
 16
-1
-1
+0
+0
 1
 ticks
 30.0
 
+TEXTBOX
+806
+121
+956
+163
+Each patch connects to a random other patch, analyze this network
+11
+0.0
+1
+
 BUTTON
+4
 16
-10
-80
-43
+68
+49
 Setup
 setup
 NIL
@@ -103,27 +106,10 @@ NIL
 1
 
 BUTTON
-9
-226
-72
-259
-Go
-go
-T
-1
-T
-OBSERVER
-NIL
-NIL
-NIL
-NIL
-1
-
-BUTTON
-115
-226
-178
-259
+75
+16
+138
+49
 Next
 go
 NIL
@@ -136,48 +122,48 @@ NIL
 NIL
 1
 
-SLIDER
+BUTTON
+146
 15
-55
-187
-88
+209
+48
+Go
+go
+T
+1
+T
+OBSERVER
+NIL
+NIL
+NIL
+NIL
+1
+
+SLIDER
+23
+62
+195
+95
 flipped
 flipped
 1
-500
+1000
 100.0
 1
 1
 NIL
 HORIZONTAL
 
-PLOT
-666
-10
-1133
-450
-plot 1
-Ticks
-State 1 Count (White)
-0.0
-10.0
-0.0
-10.0
-true
-false
-"" ""
-PENS
-"default" 1.0 0 -16777216 true "" "plot count patches with [state = 1]"
-
-TEXTBOX
-17
-289
-167
-457
-TODO:\nLeft/right vs neighbors4 vs neighbors8?\n\nWhat about versus a discrete version?\n\nIs the graph output random?\n\nCan you predict how long this process will run for?\n
-11
-0.0
+SWITCH
+40
+126
+157
+159
+randSwitch
+randSwitch
 1
+1
+-1000
 
 @#$#@#$#@
 ## WHAT IS IT?
@@ -521,7 +507,7 @@ false
 Polygon -7500403 true true 270 75 225 30 30 225 75 270
 Polygon -7500403 true true 30 75 75 30 270 225 225 270
 @#$#@#$#@
-NetLogo 6.2.0
+NetLogo 6.2.1
 @#$#@#$#@
 @#$#@#$#@
 @#$#@#$#@

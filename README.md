@@ -1,4 +1,3 @@
 # SynchronizationModels
- Random left/right neighbor choice in Netlogo Model
- 
- Each agent decides to synchronize to the left or right and changes its color to the average of both colors.
+
+Prototype models for potentially complex behavior that I want to analyze using computation mechanics. These are the prototypes for the automata explorer.
